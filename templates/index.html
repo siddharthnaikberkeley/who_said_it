@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <title>{{ title }}</title>
+        <style>
+            .col-container {
+               margin: auto;
+            }
+        </style>
+    </head>
+    <body>
+    <script>
+        function NavigateAppId() {
+            console.log("called")
+            var min_elem = document.getElementById("min");
+            var min = min_elem.options[min_elem.selectedIndex].value;
+            var max_elem = document.getElementById("max");
+            var max = max_elem.options[max_elem.selectedIndex].value;
+            var dest = '/game?min=' + min + '&max=' + max
+            window.location = dest
+        };
+    </script>
+        <div class="col-container">
+            <p>Who SAID IT C TEAM</p>
+            <p>min message length</p>
+            <input class="column" id="min">
+            <p>max message_length</p>
+            <input class="column" id="max">
+            <button onclick="GetMessage();" type="button">
+                Start Game
+            </button>
+        </div>
+    </body>
+</html>
+

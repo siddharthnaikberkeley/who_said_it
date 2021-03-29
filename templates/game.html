@@ -1,0 +1,81 @@
+<html>
+    <head>
+        <title>{{ title }}</title>
+        <style>
+            .col-container {
+               margin: auto;
+            }
+        </style>
+    </head>
+    <body>
+    <script>
+        var answer = null;
+        var right = 0;
+        var total = 0;
+        function GetNewQuote() {
+            var xhr = new XMLHttpRequest()
+            var url = '/get_quote'
+            xhr.open("GET", url, true);
+
+            xhr.onload = function() {
+               console.log("HELLO")
+               var elem = document.getElementById('message')
+               var quote = JSON.parse(xhr.responseText)
+               elem.innerHTML = quote['body']
+               answer = quote['sender']
+               var date = document.getElementById('date')
+               date.innerHTML = quote['human_time']
+               console.log(quote)
+             };
+             xhr.send()
+            console.log("called")
+        };
+        function Check() {
+            if (answer == null) {
+                alert("click da new quote button first")
+                return
+            }
+            total = total + 1
+            console.log(answer)
+            var guess_elem = document.getElementById("choice");
+            var guess = guess_elem.options[guess_elem.selectedIndex].value;
+            if (guess == answer) {
+                right = right + 1
+                alert("CORRECT!!!!!")
+            }
+            else {
+                alert("sorry buddy correct answer was " + answer)
+            }
+            var score_elem = document.getElementById('score')
+            score_elem.innerText = right + "/" + total
+            GetNewQuote()
+        };
+    </script>
+        <div class="col-container">
+            <p>Who SAID IT C TEAM</p>
+            <p id="message"> Click Da Button </p>
+            <p id="date"></p>
+            <button onclick="GetNewQuote();" type="button">
+               New Quote
+            </button>
+        </div>
+        <div>
+            <p> Pick an answer </p>
+            <select id="choice">
+            {% for choice in choices: %}
+                <option value="{{ choice }}">{{ choice }}</option>
+	        {% endfor %}
+	        </select>
+            <button onclick="Check();" type="button">
+                Check Answer
+            </button>
+        </div>
+        <div>
+            <p>
+                Score
+            </p>
+            <p id="score"> 0/0 </p>
+        </div>
+    </body>
+</html>
+
